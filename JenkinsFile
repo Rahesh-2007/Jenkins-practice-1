@@ -1,31 +1,38 @@
-pipeline{
-  agent any
-  stages{
-    stage('Checkout')
-      steps{
-        git branch: 'main',
-        url: 'https://github.com/Rahesh-2007/Jenkins-practice-1.git'
-      }
-  }
-  stage('Compile'){
-    steps{
-        bat 'javac AddingTwoNums.java'
-    }
-    stage('Execute'){
-        steps{
-            bat 'Jenkins-practice-1'
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Rahesh-2007/Jenkins-practice-1.git'
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                bat 'javac AddingTwoNums.java'
+            }
+        }
+
+        stage('Execute') {
+            steps {
+                bat 'java AddingTwoNums'
+            }
         }
     }
-  }
-  post{
-    sucess{
-        echo 'Program Executed Successfully'
+
+    post {
+        success {
+            echo 'Program Executed Successfully'
+        }
+
+        failure {
+            echo 'Program Execution Failed'
+        }
+
+        always {
+            echo 'Pipeline Completed'
+        }
     }
-    failure{
-        echo 'Program Execution Failed'
-    }
-    always{
-        echo 'Pipeline Completed'
-    }
-  }
 }
